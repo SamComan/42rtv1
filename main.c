@@ -77,6 +77,9 @@ void    loop_on_pixel(t_rt *specs)
         y++;
     }
     return (0);
+
+
+    
 }
 
 /**
