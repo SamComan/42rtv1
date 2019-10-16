@@ -1,0 +1,39 @@
+scene
+{
+	position(2, 2, 10)
+	direction(-0.2, -0.2, -1)
+}
+objects
+{
+    object(sphere)
+	{
+		origin(0, 0, 0)
+		color(ffff00)
+		radius(0.5)
+		...
+	}
+	object(cylinder)
+	{
+		origin(0, 0, 0)
+		axis(0, 1, 0)
+		max(10)
+		radius(0.05)
+		color(33ff55)
+	}
+	object(cylinder)
+	{
+		origin(0, 0, 0)
+		axis(1, 0, 0)
+		max(10)
+		radius(0.05)
+		color(33ff55)
+	}
+	object(cylinder)
+	{
+		origin(0, 0, 0)
+		axis(0, 0, 1)
+		max(10)
+		radius(0.05)
+		color(33ff55)
+	}
+}

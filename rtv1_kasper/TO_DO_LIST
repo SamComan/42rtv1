@@ -1,0 +1,21 @@
+
+For now the program only displays a sphere i hardcoded in the center, launch program with ./rtv1 any_file, its not doing anything with the file yet.
+
+- Write parser that takes data on objects in scene, and stores it in memory (probably linked list)
+for now just a sphere and a plane would be nice, afterwards a cylinder and cone
+
+- Write a parser that stores data from the input file in t_rt struct and t_obj linked list. input file example is in 'template' 
+file. You can start this if you want. you still need to make a t_obj struct that can contain all the relevant data for the 
+objects from the template, but you can start with parsing the camera position and direction.
+
+- Functions to calculate intersection for the different shapes, sphere one is already started, but needs to be norme, i can do these.
+
+- Makefile that puts all object files for src/*.c files in obj/*.o
+
+- illumination and shading
+
+- being able to parse and alter camera angle, position and direction
+
+- Remove the allocating part of the struct in demo.c (change it to a simple varaible)
+
+- Silence some warnings (errors?) in demo.c as well

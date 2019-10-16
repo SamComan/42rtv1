@@ -1,0 +1,80 @@
+scene
+{
+	position(0, 0, 10)
+	direction(0, 0, -1)
+}
+#sphere
+light(spherical)
+{
+	origin(-2, 0, -10)
+	color(ffff00)
+	radius(0.5)
+	intensity(10)
+}
+light(spherical)
+{
+	origin(-2, 0, 5)
+	color(ffff00)
+	radius(0.5)
+	intensity(3)
+}
+objects
+{
+	object(plane)
+    {
+        point(2, 0, 1)
+        normal(1, 0, 0)
+        color(ffff55)
+    }
+    object(sphere)
+	{
+		origin(0, 0, 0)
+		color(ff3636)
+		radius(1.5)
+		...
+	}
+    object(sphere)
+	{
+		origin(0, 5, 0)
+		color(ffff00)
+		radius(1.5)
+		...
+	}
+    object(sphere)
+	{
+		origin(0, -5, 0)
+		color(ff1155)
+		radius(1.5)
+		...
+	}
+    object(cone)
+    {
+        center(-5, 0, 0)
+        axis(0, 1, 0)
+        height(2)
+        max(1)
+        min(-1)
+        angle(90)
+        color(ff0000)
+    }
+	object(cone)
+    {
+        center(-5, 5, 0)
+        axis(0, 1, 0)
+        height(2)
+        max(1)
+        min(-1)
+        angle(90)
+        color(ff0000)
+    }
+	object(cone)
+    {
+        center(-5, -5, 0)
+        axis(0, 1, 0)
+        height(2)
+        max(1)
+        min(-1)
+        angle(90)
+        color(ff0000)
+    }
+}

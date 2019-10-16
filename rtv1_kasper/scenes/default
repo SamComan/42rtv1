@@ -1,0 +1,16 @@
+scene
+{
+    position(0, 3, 10)
+    direction(0, 0, -1)
+}
+objects
+{
+    object(cylinder)
+	{
+		origin(0, 0, 0)
+		axis(1, 0, 0)
+		max(5)
+		radius(5)
+		color(ff)
+	}
+}

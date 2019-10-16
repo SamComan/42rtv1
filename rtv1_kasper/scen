@@ -1,0 +1,28 @@
+scene
+{
+    position(0, 0, 10)
+    direction(0, 0, -1)
+}
+	light(spherical)
+	{
+		origin(3, 0, 5)
+		color(ffff00)
+		radius(0.5)
+		intensity(1)
+	}
+light
+{
+    origin(5, -5, -10)
+    color(ffffff)
+    radius(1)
+    intensity(2)
+}
+objects
+{
+    object(sphere)
+    {
+        origin(0, 0, 0)
+        color(335511)
+        radius(5)
+    }
+}

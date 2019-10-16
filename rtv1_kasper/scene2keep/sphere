@@ -1,0 +1,42 @@
+scene
+{
+	position(0, 0, 10)
+	direction(0.3, 0, -1)
+}
+#sphere
+light
+{
+	origin(-200, 50, -10)
+	color(ffffff)
+	radius(0.5)
+	intensity(0.9)
+}
+light
+{
+	origin(30, -50, -10)
+	color(ffffff)
+	radius(0.5)
+	intensity(0.9)
+}
+objects
+{
+	object(sphere)
+	{
+		origin(0, 0, 0)
+		color(851122)
+		radius(3)
+	}
+	    object(sphere)
+	{
+		origin(-5, 0, 0)
+		color(ffff00)
+		radius(1)
+		...
+	}
+	object(plane)
+    {
+        point(-2, -1, 0)
+        normal(1, 0, 0)
+        color(ff00ff)
+    }
+}
