@@ -150,8 +150,8 @@ printf("BEFORE SPHERE");
     sph->center.x = 2.00;
     sph->center.y = 0.00;
     sph->center.z = 1.00;
-    sph->color = 16725558;
-    sph->radius = 1.50;
+    sph->color = 0xa930ff;
+    sph->radius = 3.00;
     new = new_object(sph, 1);
     add_object(&specs->obj_list, new);
 
@@ -226,12 +226,12 @@ int     distant_light(t_ray *ray, t_rt *specs, t_ray *shadow_ray, t_obj *lights)
     shadow_ray->direct = light->direct;
     shadow_ray->t = FAR;
     intersect_object(shadow_ray, specs);
-    if (shadow_ray->t == FAR)
-    {
+    //if (shadow_ray->t == FAR)
+    //{
         ray->illum += ft_max(vec3_dot_product(ray->hitnormal, shadow_ray->direct), 0) * light->intensity;
         if (ray->illum > 1)
 			ray->illum = 1;
-    }
+    //}
     return (0);
 
 }
