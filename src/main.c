@@ -124,6 +124,7 @@ printf("BEFORE SPHERE");
 	specs->ft_ptr[3] = sphere_intersect;
 
     specs->win = mlx_new_window(specs->mlx, WIN_WIDTH, WIN_HEIGHT, "rtv1");
+    specs->alpha = (90.0 / 180.0) * M_PI;
     specs->aspect = WIN_HEIGHT / WIN_WIDTH;
     //specs->obj_list = NULL;
     specs->camera.x = 0.00;
@@ -132,7 +133,7 @@ printf("BEFORE SPHERE");
     //specs->camera = norm(specs->camera);
     specs->view_dir.x = 0.3;
     specs->view_dir.y = 0.00;
-    specs->view_dir.z = -1.00;
+    specs->view_dir.z = -5.00;
     specs->view_dir = norm(specs->view_dir);
     sph->center.x = 0.00;
     sph->center.y = 0.00;
@@ -254,7 +255,7 @@ int    loop_on_pixel(t_rt *specs)
             if((color = trace_ray((float)x / WIN_WIDTH, (float)y / WIN_HEIGHT, specs)) != -1)
             {
                 //printf("BEFORE  COLOR PIXEL\n");
-                color_pixel(color, x, y, specs);
+                //color_pixel(color, x, y, specs);
             }
             else
                 specs->img_str[(y * WIN_WIDTH + x) * 4] = '0';
