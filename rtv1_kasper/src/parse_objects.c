@@ -24,6 +24,7 @@ void	parse_sphere(int *i, t_rt *specs)
 		free_obj_list(&specs->obj_list, "Can't create a sphere!");
 	parse_vec(&s->center, i, &j, specs);
 	s->color = ft_atoi_base(move(i, &j, specs), 16);
+	printf("color = %d\n", s->color);
 	s->radius = ft_atof(move(i, &j, specs));
 	if (!(new = new_object(s, 1)))
 		free_obj_list(&specs->obj_list, "Can't add a sphere!");

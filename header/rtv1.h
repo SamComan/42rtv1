@@ -35,6 +35,13 @@ typedef struct		s_sphere
 	int				color;
 }					t_sphere;
 
+typedef struct		s_light
+{
+	t_vec3			direct;
+	double			radius;
+	int				color;
+	double			intensity;
+}					t_light;
 
 typedef struct		s_mat3
 {

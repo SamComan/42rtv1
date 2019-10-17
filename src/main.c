@@ -108,7 +108,9 @@ void		init_rt_struct(t_rt *specs)
 {
     t_sphere    *sph;
     t_obj       *new;
+    t_obj       *new2;
     t_obj       *objects;
+    t_light     *l;
 
 
 printf("BEFORE SPHERE");
@@ -117,6 +119,16 @@ printf("BEFORE SPHERE");
         specs->mlx = mlx_init();
 	//	return (0);
 
+    l = (t_light *)malloc(sizeof(*l));
+    l->direct.x = 5.00;
+    l->direct.y = 10.00;
+    l->direct.z = 10.00;
+    l->direct = norm(l->direct);
+    l->radius = 1.00;
+    l->color = 0xffffff;
+    l->intensity = 0.5;
+    new2 = new_object(l, 5);
+    add_object(&specs->light_list, new2);
 
     specs->ft_ptr[0] = sphere_intersect;
 	specs->ft_ptr[1] = sphere_intersect;
@@ -131,15 +143,15 @@ printf("BEFORE SPHERE");
     specs->camera.y = 0.00;
     specs->camera.z = 10.00;
     //specs->camera = norm(specs->camera);
-    specs->view_dir.x = 0.3;
+    specs->view_dir.x = 0.0;
     specs->view_dir.y = 0.00;
-    specs->view_dir.z = -5.00;
+    specs->view_dir.z = -1.00;
     specs->view_dir = norm(specs->view_dir);
-    sph->center.x = 0.00;
+    sph->center.x = 2.00;
     sph->center.y = 0.00;
-    sph->center.z = 0.00;
-    sph->color = 0x54a4c4;
-    sph->radius = 3.00;
+    sph->center.z = 1.00;
+    sph->color = 16725558;
+    sph->radius = 1.50;
     new = new_object(sph, 1);
     add_object(&specs->obj_list, new);
 
@@ -196,6 +208,51 @@ t_vec3 raster_to_world(float x, float y, t_rt *specs)
     return (ray);
 }
 
+double	ft_abs(double x)
+{
+	return ((x < 0) ? -x : x);
+}
+
+double		ft_max(double a, double b)
+{
+	return ((a > b) ? a : b);
+}
+
+int     distant_light(t_ray *ray, t_rt *specs, t_ray *shadow_ray, t_obj *lights)
+{
+    t_light     *light;
+
+    light = (t_light *)lights->obj;
+    shadow_ray->direct = light->direct;
+    shadow_ray->t = FAR;
+    intersect_object(shadow_ray, specs);
+    if (shadow_ray->t == FAR)
+    {
+        ray->illum += ft_max(vec3_dot_product(ray->hitnormal, shadow_ray->direct), 0) * light->intensity;
+        if (ray->illum > 1)
+			ray->illum = 1;
+    }
+    return (0);
+
+}
+
+int     lighting(t_ray *ray, t_rt *specs)
+{
+    t_ray   shadow_ray;
+    t_obj   *lights;
+
+    lights = specs->light_list;
+    ray->illum = 0.1;
+    shadow_ray.origin = ray->hitpoint;
+    while(lights)
+    {
+        distant_light(ray, specs, &shadow_ray, lights);
+        lights = lights->next;
+    }
+
+    return (1);
+
+}
 
 /**
  * .....
@@ -217,9 +274,10 @@ int     trace_ray(float x, float y, t_rt *specs)
     //printf("AFTER INTERSECT\n");
     if (ray.t < FAR)
     {
-        v.red = ((ray.near_col >> 16) & 0xff);
-        v.green = ((ray.near_col >> 8) & 0xff);
-        v.blue = (ray.near_col & 0xff);
+        lighting(&ray, specs);
+        v.red = ((ray.near_col >> 16) & 0xff) * ray.illum;
+        v.green = ((ray.near_col >> 8) & 0xff) * ray.illum;
+        v.blue = (ray.near_col & 0xff) * ray.illum;
         ray.near_col = (v.red << 16) | (v.green << 8) | v.blue;
         return (ray.near_col);
     }
@@ -255,7 +313,7 @@ int    loop_on_pixel(t_rt *specs)
             if((color = trace_ray((float)x / WIN_WIDTH, (float)y / WIN_HEIGHT, specs)) != -1)
             {
                 //printf("BEFORE  COLOR PIXEL\n");
-                //color_pixel(color, x, y, specs);
+                color_pixel(color, x, y, specs);
             }
             else
                 specs->img_str[(y * WIN_WIDTH + x) * 4] = '0';

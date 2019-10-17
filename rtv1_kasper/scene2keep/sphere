@@ -4,12 +4,20 @@ scene
 	direction(0.3, 0, -1)
 }
 #sphere
+light
+{
+    origin(5, -5, -10)
+    color(ffffff)
+    radius(1)
+    intensity(2)
+}
+
 objects
 {
 	object(sphere)
 	{
 		origin(0, 0, 0)
-		color(851122)
+		color(252525)
 		radius(3)
 	}
 
