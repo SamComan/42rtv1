@@ -80,6 +80,7 @@ int			file_to_array(int fd, t_rt *specs) // free specs->input
 		j = -1;
 		while (++j < (int)ft_strlen(line))
 			specs->input[i][j] = line[j];
+			printf("i = %d, j = %d, input[%d][%d] = %c\n", i,j,i,j,specs->input[i][j]);
 		specs->input[i][ft_strlen(line)] = '\0';
 		ft_strdel(&line);
 	}
