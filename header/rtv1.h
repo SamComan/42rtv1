@@ -18,8 +18,10 @@
 # include "../includes/minilibx_macos/mlx.h"
 # include "../includes/libft/libft.h"
 # define FAR 1000000
+# define NEAR 0.0001
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 800
+# define ABS(x) ((x) < 0 ? -(x): (x))
 
 typedef struct		s_vec3
 {
@@ -28,12 +30,56 @@ typedef struct		s_vec3
 	double			z;
 }					t_vec3;
 
+typedef struct		s_mat3
+{
+	double			m[3][3];
+}					t_mat3;
+
+typedef struct		s_plane
+{
+	t_vec3			point;
+	t_vec3			normal;
+	int				color;
+}					t_plane;
+
 typedef struct		s_sphere
 {
 	t_vec3			center;
 	double			radius;
 	int				color;
 }					t_sphere;
+
+typedef struct		s_cyl
+{
+	t_vec3			center;
+	t_vec3			axis;
+	double			max;
+	double			radius;
+	int				color;
+	t_mat3			rot;
+	t_mat3			trans;
+	t_mat3			scale;
+	t_mat3			scale_inv;
+	t_mat3			rot_inv;
+	int				computed;
+}					t_cyl;
+
+typedef struct		s_cone
+{
+	t_vec3			center;
+	double			height;
+	t_vec3			axis;
+	double			min;
+	double			max;
+	double			angle;
+	int				color;
+	t_mat3			rot;
+	t_mat3			trans;
+	t_mat3			scale;
+	t_mat3			scale_inv;
+	t_mat3			rot_inv;
+	int				computed;
+}					t_cone;
 
 typedef struct		s_light
 {
@@ -42,11 +88,6 @@ typedef struct		s_light
 	int				color;
 	double			intensity;
 }					t_light;
-
-typedef struct		s_mat3
-{
-	double			m[3][3];
-}					t_mat3;
 
 typedef struct		s_obj
 {
@@ -104,20 +145,36 @@ typedef struct		s_var
 	t_vec3			ext;
 }					t_var;
 
+
+int     deal_key(int key, t_rt *specs);
 void		draw_image(t_rt *specs);
 int    loop_on_pixel(t_rt *specs);
 void    color_pixel(int color, int x, int y, t_rt *specs);
 int     trace_ray(float x, float y, t_rt *specs);
+int     lighting(t_ray *ray, t_rt *specs);
+int     distant_light(t_ray *ray, t_rt *specs, t_ray *shadow_ray, t_obj *lights);
+double		ft_max(double a, double b);
+double	ft_abs(double x);
 t_vec3 raster_to_world(float x, float y, t_rt *specs);
 void    intersect_object(t_ray *ray, t_rt *specs);
 void		init_rt_struct(t_rt *specs);
+int		plane_intersect(t_ray *ray, void *hit_object);
+void	normal_towards_cam(t_ray *ray);
 int		sphere_intersect(t_ray *ray, void *ptr);
 void	sphere_inter2(t_ray *ray, t_var *v);
+t_vec3      vec3_scalar_product(t_vec3 v1, double c, char a);
 double	vec3_dot_product(t_vec3 v1, t_vec3 v2);
 t_vec3		vec3_combine_vec(t_vec3 *v1, t_vec3 *v2, char c);
 void	intersection_vec3(t_ray *ray);
 void		add_object(t_obj **list, t_obj *new);
 t_obj		*new_object(void *inf, int id);
 t_vec3  norm(t_vec3 v);
+
+int		cone_intersect(t_ray *ray, void *hit_object);
+int		cylinder_intersect(t_ray *ray, void *hit_object);
+int		cone_cap_intersect_top(t_ray *ray, t_cone *specs);
+int		cone_cap_intersect_bot(t_ray *ray, t_cone *specs);
+int		cap_intersect_top(t_ray *ray, t_cyl *specs);
+int		cap_intersect_bot(t_ray *ray, t_cyl *specs);
 
 #endif
