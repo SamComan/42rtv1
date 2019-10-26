@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_insert_sort.c                                   :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/25 18:06:49 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/25 18:29:12 by sacoman          ###   ########.fr       */
+/*   Created: 2018/11/14 15:39:31 by lutomasz          #+#    #+#             */
+/*   Updated: 2018/11/14 15:40:02 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_insert_sort(int *tab, int len)
+int		ft_intlen(int n)
 {
-	int i;
-	int j;
-	int tmp;
+	int len;
 
-	i = 1;
-	while (i < len)
+	if (n == -2147483648)
+		return (11);
+	len = 0;
+	if (n == 0)
+		return (1);
+	if (n < 0)
 	{
-		tmp = tab[i];
-		j = i - 1;
-		while (j >= 0 && tab[j] > tmp)
-		{
-			tab[j + 1] = tab[j];
-			j = j - 1;
-		}
-		tab[j + 1] = tmp;
-		i++;
+		n = -n;
+		len++;
 	}
+	while (n)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
 }

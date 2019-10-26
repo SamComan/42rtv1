@@ -3,57 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 19:41:27 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/24 21:32:50 by sacoman          ###   ########.fr       */
+/*   Created: 2018/10/05 16:55:07 by lutomasz          #+#    #+#             */
+/*   Updated: 2018/10/05 16:55:54 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static long		get_length(int nb)
+char	*ft_itoa(int n)
 {
-	long	len;
+	char	*tab;
+	size_t	len;
 
-	if (nb == 0)
-		return (1);
-	len = 0;
-	if (nb < 0)
-	{
-		len++;
-		nb = -nb;
-	}
-	while (nb != 0)
-	{
-		nb = nb / 10;
-		len++;
-	}
-	return (len++);
-}
-
-char			*ft_itoa(int n)
-{
-	long	nb;
-	long	len;
-	char	*new;
-
-	nb = n;
-	len = get_length(nb);
-	new = (char *)malloc(sizeof(char) * (len + 1));
-	if (!new)
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	len = ft_intlen(n) + 1;
+	if ((tab = (char*)malloc(sizeof(char) * len)) == NULL)
 		return (NULL);
-	new[len] = '\0';
-	len--;
-	if (nb < 0)
-		nb = -nb;
-	while (len >= 0)
-	{
-		new[len] = (nb % 10) + '0';
-		len--;
-		nb = nb / 10;
-	}
+	if (n == 0)
+		tab[0] = '0';
 	if (n < 0)
-		new[0] = '-';
-	return (new);
+	{
+		tab[0] = '-';
+		n = -n;
+	}
+	tab[len - 1] = '\0';
+	while (n)
+	{
+		len--;
+		tab[len - 1] = (n % 10) + '0';
+		n /= 10;
+	}
+	return (tab);
 }

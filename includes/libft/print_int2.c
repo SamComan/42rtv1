@@ -1,21 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   print_int2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 22:19:44 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/23 22:21:46 by sacoman          ###   ########.fr       */
+/*   Created: 2019/10/14 17:44:08 by lutomasz          #+#    #+#             */
+/*   Updated: 2019/10/14 17:44:20 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isspace(int c)
+void	print_int2(int **tab, int w, int h)
 {
-	if (c == '\t' || c == '\v' || c == '\n' || c == '\r' || c == '\f' ||
-			c == ' ')
-		return (1);
-	return (0);
+	int x;
+	int y;
+
+	x = 0;
+	while (x < h)
+	{
+		y = 0;
+		while (y < w)
+		{
+			ft_putnbr(tab[x][y]);
+			y++;
+		}
+		ft_putchar('\n');
+		x++;
+	}
 }

@@ -2,7 +2,7 @@
 
 NAME = rtv1
 
-SRC_NAME = main.c 
+SRC_NAME = main.c parsing.c lists.c
 
 SRC_PATH = src/
 SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))

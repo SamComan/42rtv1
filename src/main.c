@@ -560,22 +560,22 @@ void		init_rt_struct(t_rt *specs)
     add_object(&specs->obj_list, new5);
     
 
-    printf("BEFORE OBJ LOOP");
+    printf("BEFORE OBJ LOOP\n");
 
     printf(" \n CAMERA \n camera position x = %f, y = %f, z = %f \n camera direction x = %f, y = %f, z = %f\n",
 	specs->camera.x, specs->camera.y,  specs->camera.z, specs->view_dir.x, specs->view_dir.y, specs->view_dir.z);
     objects = specs->obj_list;
     
-    while(objects)
-    {
-        if (objects->id == 1)
-        {
-        printf(" \n SPHERE \n center x = %f y = %f z = %f, radius = %f, color = %d\n", ((t_sphere *)objects->obj)->center.x, ((t_sphere *)objects->obj)->center.y, ((t_sphere *)objects->obj)->center.z, ((t_sphere *)objects->obj)->radius, ((t_sphere *)objects->obj)->color);
-        }
-        objects = objects->next;
-    }
+    // while(objects)
+    // {
+    //     if (objects->id == 1)
+    //     {
+    //     printf(" \n SPHERE \n center x = %f y = %f z = %f, radius = %f, color = %d\n", ((t_sphere *)objects->obj)->center.x, ((t_sphere *)objects->obj)->center.y, ((t_sphere *)objects->obj)->center.z, ((t_sphere *)objects->obj)->radius, ((t_sphere *)objects->obj)->color);
+    //     }
+    //     objects = objects->next;
+    // }
 
-    printf("AFTER OBJ LOOP");
+    printf("AFTER OBJ LOOP\n");
 
 
 }
@@ -591,7 +591,6 @@ void    intersect_object(t_ray *ray, t_rt *specs)
     //printf("BEFORE WHILE INTERSECT\n");
     while (o)
     {
-        
         specs->ft_ptr[o->id](ray, o->obj);
         //printf("AFTER FT\n");
         o = o->next;
@@ -670,11 +669,11 @@ int     lighting(t_ray *ray, t_rt *specs)
     intersection_vec3(ray);
     ray->illum = 0.1;
     shadow_ray.origin = ray->hitpoint;
-    while(lights)
-    {
+    // while(lights)
+    // {
         distant_light(ray, specs, &shadow_ray, lights);
-        lights = lights->next;
-    }
+    //     lights = lights->next;
+    // }
 
     return (1);
 
@@ -777,14 +776,33 @@ int     deal_key(int key, t_rt *specs)
     return (0);
 }
 
+void	usage(void)
+{
+	ft_putendl("file error");
+}
+
 /**
 * ALMOST DONE
 */
-int			main()
+int			main(int argc, char **argv)
 {
 	t_rt		specs;
-	//int			fd;
+	int			fd;
+	char **file;
 
+	argc = 1;
+	if ((fd = open(argv[1], O_RDONLY)) < 0)
+		return (0);
+	
+	printf("ok\n");
+	file = ft_file_read(fd);
+	if (file == NULL)
+	{
+		usage();
+		return (0);
+	}	
+	ft_print_tab2(file);
+	init_rt_struct(&specs);
 	// if (ac != 2)
 	// {
 	// 	ft_putstr("Usage: ./rtv1 scenefile\n");
@@ -801,13 +819,13 @@ int			main()
 	// 	return (0);
 	// }
     //printf("BEFORE INIT\n");
-    init_rt_struct(&specs);
+    
     //parsing();
     specs.view_dir = norm(specs.view_dir);
     //printf("BEFORE DRAW\n");
     draw_image(&specs);
     //printf("AFTER DRAW\n");
-	mlx_key_hook(specs.win, deal_key, &specs);
+	//mlx_key_hook(specs.win, deal_key, &specs);
 	mlx_loop(specs.mlx);
 	return (0);
 }

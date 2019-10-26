@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isupper.c                                       :+:      :+:    :+:   */
+/*   ft_print_tab2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 22:04:23 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/23 22:22:12 by sacoman          ###   ########.fr       */
+/*   Created: 2018/11/21 13:39:53 by lutomasz          #+#    #+#             */
+/*   Updated: 2018/11/21 13:42:20 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isupper(char c)
+void	ft_print_tab2(char **tab)
 {
-	if (c >= 65 && c <= 90)
-		return (1);
-	return (0);
+	int i;
+	int j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			write(1, &tab[i][j], 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
 }

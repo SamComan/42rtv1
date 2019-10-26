@@ -142,6 +142,6 @@ int			main(int ac, char **av)
 	specs.view_dir = normalise(specs.view_dir);
 	draw_image(&specs);
 	mlx_key_hook(specs.win, deal_key, &specs);
-	mlx_loop(specs.mlx);
+	//mlx_loop(specs.mlx);
 	return (0);
 }

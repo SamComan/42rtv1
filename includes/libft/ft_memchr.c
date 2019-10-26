@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/05 12:58:15 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/22 20:21:54 by sacoman          ###   ########.fr       */
+/*   Created: 2018/10/05 16:31:07 by lutomasz          #+#    #+#             */
+/*   Updated: 2018/11/26 13:09:49 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
-	unsigned char *str;
+	char			*str;
+	size_t			i;
 
-	str = (unsigned char*)s;
-	while (n > 0)
+	i = 0;
+	str = (char*)s;
+	while (n--)
 	{
-		if (*str == (unsigned char)c)
-			return ((void*)str);
-		str++;
-		n--;
+		if (str[i] == (char)c)
+			return ((void*)str + i);
+		i++;
 	}
 	return (NULL);
 }

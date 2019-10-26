@@ -17,11 +17,19 @@
 # include <stdlib.h>
 # include "../includes/minilibx_macos/mlx.h"
 # include "../includes/libft/libft.h"
+# include "../includes/libft/get_next_line.h"
+# include "math.h"
 # define FAR 1000000
 # define NEAR 0.0001
 # define WIN_HEIGHT 800
 # define WIN_WIDTH 800
 # define ABS(x) ((x) < 0 ? -(x): (x))
+
+typedef	struct	s_list_rt
+{
+	char				**str;
+	struct s_list_rt	*next;
+}				t_list_rt;
 
 typedef struct		s_vec3
 {
@@ -176,5 +184,7 @@ int		cone_cap_intersect_top(t_ray *ray, t_cone *specs);
 int		cone_cap_intersect_bot(t_ray *ray, t_cone *specs);
 int		cap_intersect_top(t_ray *ray, t_cyl *specs);
 int		cap_intersect_bot(t_ray *ray, t_cyl *specs);
+
+char		**ft_file_read(int fd);
 
 #endif

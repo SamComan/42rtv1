@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_islower.c                                       :+:      :+:    :+:   */
+/*   tab2_cpy.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/23 22:08:03 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/23 22:22:01 by sacoman          ###   ########.fr       */
+/*   Created: 2019/10/16 19:07:17 by lutomasz          #+#    #+#             */
+/*   Updated: 2019/10/16 19:07:24 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_islower(char c)
+char **tab2_cpy(char **src)
 {
-	if (c >= 97 && c <= 122)
-		return (1);
-	return (0);
+	int i;
+	int len;
+	char **tab;
+
+	len = 0;
+	while (src[len])
+		len++;
+	tab = (char**)malloc(sizeof(char*) * len + 1);
+	i = -1;
+	while (++i < len)
+		tab[i] = ft_strdup(src[i]);
+	tab[i] = 0;
+	return (tab);
 }

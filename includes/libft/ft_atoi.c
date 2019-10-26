@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sacoman <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lutomasz <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/09 01:58:03 by sacoman           #+#    #+#             */
-/*   Updated: 2018/07/23 22:58:00 by sacoman          ###   ########.fr       */
+/*   Created: 2018/10/05 16:41:18 by lutomasz          #+#    #+#             */
+/*   Updated: 2018/10/06 12:54:22 by lutomasz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 int	ft_atoi(const char *str)
 {
-	int					sign;
-	unsigned long int	nb;
+	int i;
+	int sign;
+	int nb;
 
-	sign = 1;
-	while (*str == ' ' || *str == '\t' || *str == '\v' || *str == '\n' ||
-			*str == '\r' || *str == '\f')
-		str++;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			sign = -1;
-		str++;
-	}
+	i = 0;
+	sign = 0;
 	nb = 0;
-	while (ft_isdigit((int)*str))
+	while (str[i] == '\t' || str[i] == '\v' || str[i] == '\n' ||
+			str[i] == '\r' || str[i] == '\f' || str[i] == ' ')
+		i++;
+	if (str[i] == '-')
+		sign = 1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		nb = nb * 10 + *str - '0';
-		str++;
-		if (nb > 9223372036854775807)
-			return (sign == -1 ? 0 : -1);
+		nb *= 10;
+		nb += str[i] - '0';
+		i++;
 	}
-	return (sign * nb);
+	if (sign == 1)
+		return (-nb);
+	return (nb);
 }
