@@ -463,8 +463,8 @@ void		init_rt_struct(t_rt *specs)
     t_obj       *new;
     t_obj       *new2;
     t_obj       *new3;
-    t_obj       *new4;
-    t_obj       *new5;
+    // t_obj       *new4;
+    // t_obj       *new5;
     t_obj       *objects;
     t_light     *l;
 
@@ -480,9 +480,9 @@ void		init_rt_struct(t_rt *specs)
 	//	return (0);
 
     l = (t_light *)malloc(sizeof(*l));
-    l->direct.x = 0.00;
+    l->direct.x = 10.00;
     l->direct.y = 10.00;
-    l->direct.z = 0.00;
+    l->direct.z = 10.00;
     l->direct = norm(l->direct);
     l->radius = 1.00;
     l->color = 0xffffff;
@@ -513,7 +513,7 @@ void		init_rt_struct(t_rt *specs)
     sph->center.y = 0.00;
     sph->center.z = 1.00;
     sph->color = 0xff3838;
-    sph->radius = 1.50;
+    sph->radius = 2.00;
     new = new_object(sph, 1);
     add_object(&specs->obj_list, new);
 
@@ -530,34 +530,34 @@ void		init_rt_struct(t_rt *specs)
     add_object(&specs->obj_list, new3);
 
     //CONE - BULLSHIT
-    cone->center.x = -2.00;
-    cone->center.y = 20.00;
-    cone->center.z = 0.00;
-    cone->axis.x = 1.00;
-    cone->axis.y = 0.00;
-    cone->axis.z = 0.00;
-    cone->axis = norm(cone->axis);
-    cone->height = 1.00;
-	cone->max = 1.00;
-	cone->min = 0.00;
-	cone->angle = 30;
-	cone->color = 0xff3838;
-	cone->computed = 0;
-    new4 = new_object(cone, 0);
-    add_object(&specs->obj_list, new4);
+    // cone->center.x = -2.00;
+    // cone->center.y = 20.00;
+    // cone->center.z = 0.00;
+    // cone->axis.x = 1.00;
+    // cone->axis.y = 0.00;
+    // cone->axis.z = 0.00;
+    // cone->axis = norm(cone->axis);
+    // cone->height = 1.00;
+	// cone->max = 1.00;
+	// cone->min = 0.00;
+	// cone->angle = 30;
+	// cone->color = 0xff3838;
+	// cone->computed = 0;
+    // new4 = new_object(cone, 0);
+    // add_object(&specs->obj_list, new4);
 
-    //CYLINDRE - ALSO BULLSHIT
-    cyl->center.x = 3.0;
-    cyl->center.y = -4.0;
-    cyl->center.z = -10.0;
-    cyl->axis.x = 0.0;
-    cyl->axis.y = 1.0;
-    cyl->axis.z = 0.0;
-    cyl->max = 7.0;
-    cyl->radius = 1.5;
-    cyl->color = 0xffff00;
-    new5 = new_object(cyl, 0);
-    add_object(&specs->obj_list, new5);
+    // //CYLINDRE - ALSO BULLSHIT
+    // cyl->center.x = 3.0;
+    // cyl->center.y = -4.0;
+    // cyl->center.z = -10.0;
+    // cyl->axis.x = 0.0;
+    // cyl->axis.y = 1.0;
+    // cyl->axis.z = 0.0;
+    // cyl->max = 7.0;
+    // cyl->radius = 1.5;
+    // cyl->color = 0xffff00;
+    // new5 = new_object(cyl, 0);
+    // add_object(&specs->obj_list, new5);
     
 
     printf("BEFORE OBJ LOOP\n");
@@ -630,12 +630,12 @@ int     distant_light(t_ray *ray, t_rt *specs, t_ray *shadow_ray, t_obj *lights)
     shadow_ray->direct = light->direct;
     shadow_ray->t = FAR;
     intersect_object(shadow_ray, specs);
-    //if (shadow_ray->t == FAR)
-    //{
+    if (shadow_ray->t == FAR)
+    {
         ray->illum += ft_max(vec3_dot_product(ray->hitnormal, shadow_ray->direct), 0) * light->intensity;
         if (ray->illum > 1)
 			ray->illum = 1;
-    //}
+    }
     return (0);
 
 }
@@ -691,7 +691,7 @@ int     trace_ray(float x, float y, t_rt *specs)
     o = specs->obj_list;
     ray.origin = specs->camera;
     ray.direct = raster_to_world(x, y, specs);
-    ray.direct = norm(ray.direct);
+    //ray.direct = norm(ray.direct);
     ray.t = FAR;
     ray.near_col = 0x88;
     intersect_object(&ray, specs);
@@ -821,7 +821,7 @@ int			main(int argc, char **argv)
     //printf("BEFORE INIT\n");
     
     //parsing();
-    specs.view_dir = norm(specs.view_dir);
+    //specs.view_dir = norm(specs.view_dir);
     //printf("BEFORE DRAW\n");
     draw_image(&specs);
     //printf("AFTER DRAW\n");
