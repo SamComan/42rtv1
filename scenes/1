@@ -1,6 +1,6 @@
-scene
+camera	 
 {
-	position(0, 2, 10)
+	           origin(0, 2, 10)
 	direction(0, 0, -1)
 }
 #sphere

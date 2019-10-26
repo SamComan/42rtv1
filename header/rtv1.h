@@ -186,5 +186,7 @@ int		cap_intersect_top(t_ray *ray, t_cyl *specs);
 int		cap_intersect_bot(t_ray *ray, t_cyl *specs);
 
 char		**ft_file_read(int fd);
+int check_next_char(char **file, int *current_line, char *c);
+int find_vec(char **file, int *curr_line, char *str);
 
 #endif

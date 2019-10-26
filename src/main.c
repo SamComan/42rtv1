@@ -780,13 +780,89 @@ void	usage(void)
 {
 	ft_putendl("file error");
 }
+//ft_strncmp(line, "plateau", 6) == 0
 
+char	*ft_strstr(const char *haystack, const char *needle)
+{
+	char			*s1;
+	char			*s2;
+	unsigned int	i;
+	unsigned int	j;
+
+	s1 = (char*)haystack;
+	s2 = (char*)needle;
+	i = 0;
+	if (!(s2[0]))
+		return (s1);
+	while (s1[i])
+	{
+		j = 0;
+		while (s1[i + j] && s1[i + j] == s2[j])
+			j++;
+		if (s2[j] == '\0')
+			return (s1 + i);
+		i++;
+	}
+	return (NULL);
+}
+
+
+int get_camera_data(char **file, int *curr_line)
+{
+	// int *i;
+	// int *j; 
+
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "origin") == -1)
+		return (-1);
+	get_vector_value(file[curr_line]);
+	return (1);
+}
+
+int parse_camera(char **file, int *curr_line)
+{
+	int i; 
+
+	i = -1;
+
+	while (file[++(*curr_line)])
+	{
+		if (ft_strncmp(file[*curr_line], "camera", 6) == 0)
+			break ;
+		else if ((ft_strncmp(file[*curr_line], "light", 5) == 0) ||
+					(ft_strncmp(file[*curr_line], "objects", 7) == 0) ||
+					file[*curr_line + 1] == NULL)
+			return (-1);
+	}
+	if (get_camera_data(file, curr_line) == - 1)
+		return (-1);
+	return (1);
+}
+
+int parse_data(char	**file)
+{
+	int i;
+	int ret;
+
+	i = -1;
+	///1. look for camera
+	ft_print_tab2(file);
+	printf("\n");
+	ret = parse_camera(file, &i);
+	printf("ret = %d\n", ret);
+	///2. look for light (optionnel)
+
+	///3. look for object
+
+	return (1);
+}
 /**
 * ALMOST DONE
 */
 int			main(int argc, char **argv)
 {
-	t_rt		specs;
+//	t_rt		specs;
 	int			fd;
 	char **file;
 
@@ -794,15 +870,15 @@ int			main(int argc, char **argv)
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (0);
 	
-	printf("ok\n");
 	file = ft_file_read(fd);
 	if (file == NULL)
 	{
 		usage();
 		return (0);
 	}	
-	ft_print_tab2(file);
-	init_rt_struct(&specs);
+	//ft_print_tab2(file);
+	//init_rt_struct(&specs);
+	parse_data(file);
 	// if (ac != 2)
 	// {
 	// 	ft_putstr("Usage: ./rtv1 scenefile\n");
@@ -823,9 +899,9 @@ int			main(int argc, char **argv)
     //parsing();
     //specs.view_dir = norm(specs.view_dir);
     //printf("BEFORE DRAW\n");
-    draw_image(&specs);
+   // draw_image(&specs);
     //printf("AFTER DRAW\n");
 	//mlx_key_hook(specs.win, deal_key, &specs);
-	mlx_loop(specs.mlx);
+	//mlx_loop(specs.mlx);
 	return (0);
 }
