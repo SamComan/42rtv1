@@ -93,5 +93,9 @@ int					**atoi_tab2(char **tab_char, int w, int h);
 void				print_int2(int **tab, int w, int h);
 void				ft_swap(int *a, int *b);
 char				**tab2_cpy(char **src);
+double				ft_atof(const char *str);
+int					ft_is_space(int c);
+int					is_partofpar(int c);
+int					ft_atoi_base(const char *str, int str_base);
 
 #endif

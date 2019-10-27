@@ -1,6 +1,6 @@
 camera	 
 {
-	           origin(0, 2, 10)
+	           origin(0, 2, 10.13)
 	direction(0, 0, -1)
 }
 #sphere
@@ -18,34 +18,41 @@ objects
 		origin(5, 0, 0)
 		color(ff00ff)
 		radius(2)
-		...
 	}
     object(sphere)
 	{
 		origin(12, 0, 0)
 		color(ffff00)
 		radius(0.5)
-		...
 	}
-    object(sphere)
+ 	object(cylinder)
 	{
-		origin(1, 5, 0)
-		color(aabbcc)
-		radius(0.8)
-		...
+		origin(0, 0, 0)
+		axis(1, 0, 0)
+		max(5)
+		radius(5)
+		color(ff)
 	}
-    object(sphere)
+   	object(cone)
 	{
-		origin(3, 0, 0)
-		color(662211)
-		radius(1)
-		...
+		center(0, 0, 0)
+		axis(1, 0, 2)
+		height(1)
+		max(3)
+		min(1)
+		angle(90)
+		color(ff00ff)
 	}
     object(sphere)
 	{
 		origin(1, -2, 0)
 		color(883388)
 		radius(1.5)
-		...
+	}
+	object(plane)
+    {
+		point(-1, -1, 0)
+		normal(0, 1, 0)
+		color(ff00ff)
 	}
 }

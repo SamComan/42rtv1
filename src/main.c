@@ -782,30 +782,6 @@ void	usage(void)
 }
 //ft_strncmp(line, "plateau", 6) == 0
 
-char	*ft_strstr(const char *haystack, const char *needle)
-{
-	char			*s1;
-	char			*s2;
-	unsigned int	i;
-	unsigned int	j;
-
-	s1 = (char*)haystack;
-	s2 = (char*)needle;
-	i = 0;
-	if (!(s2[0]))
-		return (s1);
-	while (s1[i])
-	{
-		j = 0;
-		while (s1[i + j] && s1[i + j] == s2[j])
-			j++;
-		if (s2[j] == '\0')
-			return (s1 + i);
-		i++;
-	}
-	return (NULL);
-}
-
 
 int get_camera_data(char **file, int *curr_line)
 {
@@ -814,9 +790,14 @@ int get_camera_data(char **file, int *curr_line)
 
 	if (check_next_char(file, curr_line, "{") == -1)
 		return (-1);
-	if (find_vec(file, curr_line, "origin") == -1)
+	if (find_vec(file, curr_line, "origin", 0) == -1)
 		return (-1);
-	get_vector_value(file[curr_line]);
+	get_vector_value(file[*curr_line]);
+	if (find_vec(file, curr_line, "direction", 0) == -1)
+		return (-1);
+	get_vector_value(file[*curr_line]);
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
 	return (1);
 }
 
@@ -828,6 +809,8 @@ int parse_camera(char **file, int *curr_line)
 
 	while (file[++(*curr_line)])
 	{
+		while (*file[*curr_line] == '#')
+			++(*curr_line);
 		if (ft_strncmp(file[*curr_line], "camera", 6) == 0)
 			break ;
 		else if ((ft_strncmp(file[*curr_line], "light", 5) == 0) ||
@@ -839,18 +822,335 @@ int parse_camera(char **file, int *curr_line)
 		return (-1);
 	return (1);
 }
+// #sphere
+// light
+// {
+// 	origin(3000, 0, 5000)
+// 	color(ffff00)
+// 	radius(0.5)
+// 	intensity(1)
+// }
+
+int get_light_data(char **file, int *curr_line)
+{
+	// int *i;
+	// int *j;
+
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "origin", 0) == -1)
+		return (-1);
+	//printf("%s\n", file[*curr_line]);
+	get_vector_value(file[*curr_line]);
+	if (find_color(file, curr_line, "color") == -1)
+		return (-1);
+	get_color_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "radius", 1) == -1)
+		return (-1);
+	
+	//give double radius
+	get_single_value(file[*curr_line]);
+	if (find_vec(file, curr_line, "intensity", 1) == -1)
+		return (-1);
+	//give double intensity
+	get_single_value(file[*curr_line]);
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
+	return (1);
+}
+
+int parse_light(char **file, int *curr_line)
+{
+	int i; 
+
+	i = -1;
+
+	while (file[++(*curr_line)])
+	{
+		while (*file[*curr_line] == '#')
+			++(*curr_line);
+		if (ft_strncmp(file[*curr_line], "light", 5) == 0)
+			break ;
+		else if ((ft_strncmp(file[*curr_line], "objects", 7) == 0) ||
+					file[*curr_line + 1] == NULL)
+			return (-1);
+	}
+	if (get_light_data(file, curr_line) == - 1)
+		return (-1);
+	return (1);
+}
+// #sphere
+// light
+// {
+// 	origin(3000, 0, 5000)
+// 	color(ffff00)
+// 	radius(0.5)
+// 	intensity(1)
+// }
+
+// objects
+// {
+// 	object(sphere)
+// 	{
+// 		origin(5, 0, 0)
+// 		color(ff00ff)
+// 		radius(2)
+// 		...
+// 	}
+
+int parse_sphere(char **file, int *curr_line)
+{
+	printf("ok sphere\n");
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "origin", 0) == -1)
+		return (-1);
+	//printf("%s\n", file[*curr_line]);
+	get_vector_value(file[*curr_line]);
+	if (find_color(file, curr_line, "color") == -1)
+		return (-1);
+	get_color_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "radius", 1) == -1)
+		return (-1);
+	
+	//give double radius
+	get_single_value(file[*curr_line]);
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
+	// file = 0;
+	// printf("sphere BEFORE %d\n", *curr_line);
+	// *curr_line += 6;
+	// printf("sphere AFTER %d\n", *curr_line);
+	return (1);
+}
+
+int parse_cylinder(char **file, int *curr_line)
+{
+	printf("ok cylinder\n");
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "origin", 0) == -1)
+		return (-1);
+	//printf("%s\n", file[*curr_line]);
+	//origin
+	get_vector_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "axis", 0) == -1)
+		return (-1);
+	//axis
+	get_vector_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "max", 1) == -1)
+		return (-1);
+	//give double max
+	get_single_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "radius", 1) == -1)
+		return (-1);
+	//give double radius
+	get_single_value(file[*curr_line]);
+
+
+	if (find_color(file, curr_line, "color") == -1)
+		return (-1);
+	get_color_value(file[*curr_line]);
+
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
+	// file = 0;
+	// printf("plane BEFORE%d\n", *curr_line);
+	// *curr_line += 5;
+	// printf("plane AFTER%d\n", *curr_line);
+	return (1);
+}
+
+int parse_cone(char **file, int *curr_line)
+{
+	printf("ok cone\n");
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "center", 0) == -1)
+		return (-1);
+	//printf("%s\n", file[*curr_line]);
+	//origin
+	get_vector_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "axis", 0) == -1)
+		return (-1);
+	//axis
+	get_vector_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "height", 1) == -1)
+		return (-1);
+	//give double max
+	get_single_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "max", 1) == -1)
+		return (-1);
+	//give double max
+	get_single_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "min", 1) == -1)
+		return (-1);
+	//give double radius
+	get_single_value(file[*curr_line]);
+
+	if (find_vec(file, curr_line, "angle", 1) == -1)
+		return (-1);
+	//give double max
+	get_single_value(file[*curr_line]);
+
+
+	if (find_color(file, curr_line, "color") == -1)
+		return (-1);
+	get_color_value(file[*curr_line]);
+
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
+	// file = 0;
+	// printf("cone BEFORE%d\n", *curr_line);
+	// *curr_line += 9;
+	// printf("cone AFTER%d\n", *curr_line);
+	return (1);
+}
+
+int parse_plane(char **file, int *curr_line)
+{
+	
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	if (find_vec(file, curr_line, "point", 0) == -1)
+		return (-1);
+	//printf("%s\n", file[*curr_line]);
+	get_vector_value(file[*curr_line]);
+	printf("ok plane\n");
+
+	if (find_vec(file, curr_line, "normal", 0) == -1)
+		return (-1);
+	//give double radius
+	get_vector_value(file[*curr_line]);
+
+	if (find_color(file, curr_line, "color") == -1)
+		return (-1);
+	get_color_value(file[*curr_line]);
+
+	if (check_next_char(file, curr_line, "}") == -1)
+		return (-1);
+
+	// file = 0;
+	// printf("cylinder BEFORE%d\n", *curr_line);
+	// *curr_line += 7;
+	// printf("cylinder AFTER%d\n", *curr_line);
+	return (1);
+}
+
+
+int get_obj_type(char **file, int *curr_line)
+{
+	//printf("check\n");
+	while(*file[*curr_line] == '\t' || *file[*curr_line] == ' ')
+			file[*curr_line] += 1;
+	if (ft_strncmp(file[*curr_line], "object(sphere)", 14) == 0)
+	{
+		if (parse_sphere(file, curr_line) == -1)
+		{
+			printf("SPHERE FAIL\n");
+			return (-1);
+		}
+	}
+	else if (ft_strncmp(file[*curr_line], "object(plane)", 13) == 0)
+	{
+		if (parse_plane(file, curr_line) == -1)
+		{
+			printf("PLANE FAIL\n");
+			return (-1);
+		}
+	}
+	else if (ft_strncmp(file[*curr_line], "object(cone)", 12) == 0)
+	{
+		if (parse_cone(file, curr_line) == -1)
+		{
+			printf("CONE FAIL\n");
+			return (-1);
+		}	
+	}
+	else if (ft_strncmp(file[*curr_line], "object(cylinder)", 16) == 0)
+	{
+		if (parse_cylinder(file, curr_line) == -1)
+		{
+			printf("CYLINDRE FAIL\n");
+			return (-1);
+		}
+	}
+	else
+	{
+		if(*file[*curr_line] == '\t')
+			printf("hahaha\n");
+		printf("%s\n", file[*curr_line]);
+		return (-1);
+	}	
+	return (1);
+}
+
+int get_obj_data(char **file, int *curr_line)
+{
+	// int *i;
+	// int *j;
+
+	if (check_next_char(file, curr_line, "{") == -1)
+		return (-1);
+	while (file[++(*curr_line)])
+	{
+		printf(" iterations\n");
+		if (get_obj_type(file, curr_line) == -1)
+		{
+			printf("no more objects left\n");
+			break ;
+		}	
+			
+	}
+	return (1);
+}
+
+
+int parse_obj(char **file, int *curr_line)
+{
+	int i; 
+
+	i = -1;
+
+	while (file[++(*curr_line)])
+	{
+		while (*file[*curr_line] == '#')
+			++(*curr_line);
+		if (ft_strncmp(file[*curr_line], "objects", 5) == 0)
+			break ;
+		else if (file[*curr_line + 1] == NULL)
+			return (-1);
+	}
+	if (get_obj_data(file, curr_line) == - 1)
+		return (-1);
+	return (1);
+}
 
 int parse_data(char	**file)
 {
 	int i;
-	int ret;
 
 	i = -1;
+	//ft_print_tab2(file);
+	//skip comments
+	// while (file[++i][0] == '#')
+	// 	;
 	///1. look for camera
-	ft_print_tab2(file);
-	printf("\n");
-	ret = parse_camera(file, &i);
-	printf("ret = %d\n", ret);
+	if (parse_camera(file, &i) == -1)
+		return (-1);
+	if (parse_light(file, &i) == -1)
+		return (-1);
+	parse_obj(file, &i);
+	//printf("ret = %d\n", ret);
 	///2. look for light (optionnel)
 
 	///3. look for object
@@ -878,7 +1178,12 @@ int			main(int argc, char **argv)
 	}	
 	//ft_print_tab2(file);
 	//init_rt_struct(&specs);
-	parse_data(file);
+	if (parse_data(file) == -1)
+	{
+		printf("file error\n");
+		return (0);
+	}	
+		
 	// if (ac != 2)
 	// {
 	// 	ft_putstr("Usage: ./rtv1 scenefile\n");
